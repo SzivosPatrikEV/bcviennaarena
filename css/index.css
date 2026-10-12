@@ -1,0 +1,944 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --red: #e62b34;
+    --red2: #ff4b52;
+    --bg: #090a0c;
+    --panel: #111318;
+    --white: #f5f4ef;
+    --muted: #898c91;
+    --line: #282b30
+}
+
+* {
+    box-sizing: border-box
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--white);
+    font-family: Manrope, Arial, sans-serif;
+    overflow-x: hidden
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit
+}
+
+
+
+.nav {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 82px;
+    padding: 0 4.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    background: rgba(9, 10, 12, .62);
+    backdrop-filter: blur(20px);
+    transition: .4s
+}
+
+.nav.scrolled {
+    height: 68px;
+    background: rgba(9, 10, 12, .96)
+}
+
+.logo {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    font: 700 14px/1.05 "Space Grotesk";
+    letter-spacing: .08em
+}
+
+.logo b {
+    color: var(--red)
+}
+
+.mark {
+    width: 39px;
+    height: 39px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 11px
+}
+
+.links {
+    display: flex;
+    gap: 27px
+}
+
+.links a {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    color: #999;
+    position: relative;
+    padding: 8px 0
+}
+
+.links a:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    background: var(--red);
+    transition: .3s
+}
+
+.links a:hover,
+.links a.active {
+    color: #fff
+}
+
+.links a:hover:after,
+.links a.active:after {
+    right: 0
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    gap: 5px
+}
+
+.lang {
+    background: none;
+    border: 0;
+    color: #666;
+    font-size: 9px;
+    font-weight: 800;
+    cursor: pointer
+}
+
+.lang.active {
+    color: #fff
+}
+
+.nav-cta {
+    margin-left: 13px;
+    border: 1px solid #fff;
+    padding: 11px 14px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .15em
+}
+
+.hamb {
+    display: none;
+    background: none;
+    border: 0
+}
+
+.hamb i {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: #fff;
+    margin: 6px
+}
+
+.hero {
+    min-height: 94vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden
+}
+
+.hero-image {
+    position: absolute;
+    inset: -8%;
+    background: linear-gradient(90deg, #090a0c 2%, rgba(9, 10, 12, .85) 38%, rgba(9, 10, 12, .18)), linear-gradient(0deg, #090a0c, transparent 55%), url("../assets/arena.jpg") center/cover;
+    transform: scale(1.07);
+    will-change: transform
+}
+
+.hero-image:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 119px, rgba(255, 255, 255, .025) 120px), repeating-linear-gradient(0deg, transparent 0 119px, rgba(255, 255, 255, .025) 120px)
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    margin: 85px 8vw 0;
+    max-width: 900px
+}
+
+.kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .25em;
+    color: #b8babd
+}
+
+.hero h1 {
+    font: 700 clamp(76px, 11.5vw, 165px)/.83 "Space Grotesk";
+    letter-spacing: -.065em;
+    margin: 24px 0 30px
+}
+
+.hero h1 em,
+.section-title em,
+.feature-copy em,
+.business-banner em,
+.contact-left em {
+    color: var(--red);
+    font-style: normal
+}
+
+.hero-desc {
+    max-width: 610px;
+    color: #c4c5c6;
+    font-size: 14px;
+    line-height: 1.9
+}
+
+.actions {
+    display: flex;
+    gap: 11px;
+    margin-top: 32px
+}
+
+.solid-btn,
+.outline-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 19px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    cursor: pointer;
+    transition: .3s
+}
+
+.solid-btn {
+    background: var(--red);
+    border: 1px solid var(--red);
+    color: #fff
+}
+
+.solid-btn:hover {
+    background: var(--red2);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px #e62b3430
+}
+
+.outline-btn {
+    border: 1px solid #777;
+    background: transparent
+}
+
+.outline-btn:hover {
+    border-color: #fff;
+    background: #fff;
+    color: #08090a;
+    transform: translateX(5px)
+}
+
+.outline-btn span {
+    margin-left: 25px;
+    font-size: 14px
+}
+
+main>section:not(.hero) {
+    padding: 115px 8vw
+}
+
+.section-kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .25em;
+    color: #a5a7aa
+}
+
+.section-title {
+    font: 700 clamp(57px, 8.4vw, 112px)/.88 "Space Grotesk";
+    letter-spacing: -.055em;
+    margin: 17px 0 58px
+}
+
+.section-title span {
+    color: var(--red)
+}
+
+.marquee {
+    margin: 0 -8vw 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-block: 1px solid #222;
+    padding: 15px 0;
+    color: #65676c;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .22em
+}
+
+.marquee span {
+    display: inline-block;
+    padding-right: 45px;
+    animation: marquee 22s linear infinite
+}
+
+@keyframes marquee {
+    to {
+        transform: translateX(-100%)
+    }
+}
+
+.feature-layout {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 65px;
+    align-items: center
+}
+
+.visual-card {
+    height: 570px;
+    background: linear-gradient(135deg, #17191d66, #0000);
+    position: relative;
+    overflow: hidden
+}
+
+.visual-card-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.visual-card:after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+}
+
+.floating-label {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    padding: 9px 12px;
+    background: #090a0ccc;
+    font-size: 8px;
+    letter-spacing: .15em
+}
+
+.visual-number {
+    position: absolute;
+    bottom: -35px;
+    right: 15px;
+    font: 700 180px "Space Grotesk";
+    color: #ffffff0b
+}
+
+.feature-copy .micro,
+.contact-left small,
+.venue-copy small {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .2em;
+    color: #777
+}
+
+.feature-copy h3 {
+    font: 700 clamp(55px, 6vw, 86px)/.85 "Space Grotesk";
+    letter-spacing: -.06em;
+    margin: 25px 0
+}
+
+.feature-copy p {
+    max-width: 500px;
+    color: #92959a;
+    font-size: 13px;
+    line-height: 1.9
+}
+
+.feature-copy .outline-btn {
+    margin-top: 20px
+}
+
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 18px;
+    border-top: 1px solid var(--line)
+}
+
+.number-grid article {
+    min-height: 175px;
+    padding: 25px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: .35s
+}
+
+.number-grid article:last-child {
+    border-right: 0
+}
+
+.number-grid article:hover {
+    background: #121419;
+    transform: translateY(-5px)
+}
+
+.number-grid b {
+    display: block;
+    color: var(--red);
+    font-size: 9px
+}
+
+.number-grid strong {
+    display: block;
+    font: 600 27px "Space Grotesk";
+    margin: 42px 0 4px
+}
+
+.number-grid p {
+    color: #707379;
+    font-size: 9px
+}
+
+.event-list {
+    border-top: 1px solid #333
+}
+
+.event-list article {
+    display: grid;
+    grid-template-columns: 145px 1fr 145px;
+    align-items: center;
+    gap: 25px;
+    padding: 27px 8px;
+    border-bottom: 1px solid var(--line);
+    transition: .4s
+}
+
+.event-list article:hover {
+    padding-left: 25px;
+    background: #101216
+}
+
+.event-list .highlight {
+    background: #e62b340b
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: 600 64px "Space Grotesk";
+    letter-spacing: -.08em
+}
+
+.date small {
+    font: 800 8px/1.2 Manrope;
+    letter-spacing: .05em;
+    color: #707379
+}
+
+.event-list span {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    color: var(--red)
+}
+
+.event-list h3 {
+    font: 600 30px "Space Grotesk";
+    margin: 8px 0
+}
+
+.event-list p {
+    font-size: 10px;
+    color: #72757a
+}
+
+.event-list article>a {
+    text-align: right;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .15em
+}
+
+.event-list article>a b {
+    font-size: 15px;
+    margin-left: 8px
+}
+
+.event-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 70px;
+    align-items: end
+}
+
+.event-bottom small {
+    font-size: 8px;
+    color: #777;
+    letter-spacing: .2em
+}
+
+.event-bottom h3 {
+    font: 700 78px/.8 "Space Grotesk";
+    letter-spacing: -.07em;
+    margin: 15px 0
+}
+
+.event-bottom em {
+    color: var(--red);
+    font-style: normal
+}
+
+.event-bottom p {
+    color: #888;
+    font-size: 13px;
+    line-height: 1.9
+}
+
+.venue-intro {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 65px;
+    align-items: center
+}
+
+.venue-photo {
+    height: 580px;
+    background: url("../assets/arena.jpg") center/cover;
+    position: relative
+}
+
+.venue-photo:before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 1px solid #fff3
+}
+
+.venue-copy h3 {
+    font: 700 clamp(55px, 6vw, 88px)/.83 "Space Grotesk";
+    letter-spacing: -.065em;
+    margin: 25px 0
+}
+
+.venue-copy p {
+    color: #92959a;
+    font-size: 13px;
+    line-height: 1.9;
+    max-width: 480px
+}
+
+.venue-copy .outline-btn {
+    margin-top: 20px
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+    margin-top: 18px
+}
+
+.stats div {
+    padding: 30px 20px;
+    border-right: 1px solid var(--line)
+}
+
+.stats div:last-child {
+    border: 0
+}
+
+.stats b {
+    display: block;
+    font: 700 48px "Space Grotesk"
+}
+
+.stats span {
+    font-size: 8px;
+    letter-spacing: .16em;
+    color: #707379
+}
+
+.business-list {
+    border-top: 1px solid var(--line)
+}
+
+.business-list>div {
+    position: relative;
+    display: grid;
+    grid-template-columns: 55px 1fr 1.2fr 50px;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 10px;
+    border-bottom: 1px solid var(--line);
+    transition: .4s
+}
+
+.business-list>div:hover {
+    background: #111317;
+    padding-left: 25px
+}
+
+.business-list span {
+    color: var(--red);
+    font-size: 9px;
+    font-weight: 800
+}
+
+.business-list h3 {
+    font: 600 38px/.86 "Space Grotesk";
+    letter-spacing: -.05em;
+    margin: 0
+}
+
+.business-list p {
+    font-size: 11px;
+    color: #83868b;
+    line-height: 1.7
+}
+
+.business-list i {
+    font-style: normal;
+    font-size: 22px;
+    text-align: right
+}
+
+.business-banner {
+    margin-top: 55px;
+    padding: 55px;
+    background: linear-gradient(105deg, #17191d, #0d0f12);
+    display: flex;
+    justify-content: space-between;
+    align-items: end
+}
+
+.business-banner small {
+    font-size: 8px;
+    letter-spacing: .2em;
+    color: #777
+}
+
+.business-banner h3 {
+    font: 700 75px/.8 "Space Grotesk";
+    letter-spacing: -.07em;
+    margin: 18px 0 0
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 90px
+}
+
+.contact-left h3 {
+    font: 700 clamp(55px, 6vw, 90px)/.84 "Space Grotesk";
+    letter-spacing: -.065em;
+    margin: 25px 0
+}
+
+.contact-left>p {
+    color: #888;
+    max-width: 450px;
+    font-size: 13px;
+    line-height: 1.9
+}
+
+.contact-details {
+    display: grid;
+    gap: 8px;
+    border-top: 1px solid #333;
+    margin-top: 45px;
+    padding-top: 25px
+}
+
+.contact-details span {
+    font-size: 8px;
+    color: #777;
+    letter-spacing: .18em;
+    margin-top: 14px
+}
+
+.contact-details b,
+.contact-details a {
+    font-size: 12px;
+    line-height: 1.8
+}
+
+.form {
+    display: grid;
+    gap: 17px
+}
+
+.form label {
+    font-size: 8px;
+    color: #85878b;
+    font-weight: 800;
+    letter-spacing: .15em
+}
+
+.form input,
+.form select,
+.form textarea {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    background: #111318;
+    border: 1px solid #303238;
+    color: #fff;
+    padding: 16px;
+    outline: none;
+    font: 12px Manrope;
+    transition: .25s
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px #e62b3412
+}
+
+.form textarea {
+    min-height: 160px;
+    resize: vertical
+}
+
+.form .solid-btn {
+    width: max-content
+}
+
+footer {
+    padding: 48px 4.5vw 22px;
+    border-top: 1px solid #222;
+    background: #060708
+}
+
+.foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #222
+}
+
+.footlinks {
+    display: flex;
+    gap: 25px
+}
+
+.footlinks a {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .15em;
+    color: #999
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 17px;
+    color: #5e6166;
+    font-size: 8px;
+    letter-spacing: .1em
+}
+
+.reveal,
+.reveal-stagger {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity .85s cubic-bezier(.2, .8, .2, 1), transform .85s cubic-bezier(.2, .8, .2, 1)
+}
+
+.visible {
+    opacity: 1;
+    transform: none
+}
+
+.reveal-stagger>* {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s, transform .7s
+}
+
+.reveal-stagger.visible>* {
+    opacity: 1;
+    transform: none
+}
+
+.reveal-stagger.visible>*:nth-child(2) {
+    transition-delay: .12s
+}
+
+.reveal-stagger.visible>*:nth-child(3) {
+    transition-delay: .24s
+}
+
+.reveal-stagger.visible>*:nth-child(4) {
+    transition-delay: .36s
+}
+
+@media(max-width:850px) {
+    .nav {
+        padding: 0 20px
+    }
+
+    .links,
+    .nav-cta {
+        display: none
+    }
+
+    .right {
+        margin-left: auto;
+        margin-right: 17px
+    }
+
+    .hamb {
+        display: block
+    }
+
+    .hero {
+        min-height: 800px
+    }
+
+    .hero-content {
+        margin: 100px 24px 0
+    }
+
+    .hero h1 {
+        font-size: 80px
+    }
+
+    .hero-image {
+        background-position: 65% center
+    }
+
+    main>section:not(.hero) {
+        padding: 80px 22px
+    }
+
+    .feature-layout,
+    .venue-intro,
+    .contact-layout,
+    .event-bottom {
+        grid-template-columns: 1fr
+    }
+
+    .visual-card {
+        height: 420px
+    }
+
+    .number-grid,
+    .stats {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .number-grid article:nth-child(2) {
+        border-right: 0
+    }
+
+    .event-list article {
+        grid-template-columns: 75px 1fr;
+        gap: 14px
+    }
+
+    .event-list article>a {
+        grid-column: 2;
+        text-align: left
+    }
+
+    .business-list>div {
+        grid-template-columns: 35px 1fr 35px
+    }
+
+    .business-list p {
+        grid-column: 2
+    }
+
+    .business-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px
+    }
+
+    .foot,
+    .bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px
+    }
+
+    .footlinks {
+        flex-wrap: wrap
+    }
+}
+
+@media(max-width:500px) {
+    .hero h1 {
+        font-size: 66px
+    }
+
+    .actions {
+        flex-direction: column
+    }
+
+    .actions .solid-btn,
+    .actions .outline-btn {
+        width: 100%
+    }
+
+    .section-title {
+        font-size: 58px
+    }
+
+    .feature-copy h3,
+    .venue-copy h3,
+    .contact-left h3 {
+        font-size: 54px
+    }
+
+    .business-list h3 {
+        font-size: 30px
+    }
+
+    .business-list>div {
+        grid-template-columns: 30px 1fr 30px
+    }
+
+    .stats b {
+        font-size: 38px
+    }
+
+    .event-bottom h3 {
+        font-size: 60px
+    }
+}
