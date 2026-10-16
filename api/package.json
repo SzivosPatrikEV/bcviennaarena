@@ -1,0 +1,12 @@
+{
+  "name": "bc-vienna-arena-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BC Vienna Arena website and contact enquiry backend",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

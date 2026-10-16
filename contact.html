@@ -88,25 +88,58 @@
               ><a href="mailto:events@bcvienna.at">events@bcvienna.at</a>
             </div>
           </div>
-          <form class="form">
-            <label>NAME<input name="Name" placeholder="Dein Name" /></label
-            ><label
-              >E-MAIL<input
-                type="email"
-                name="Email"
-                placeholder="deine@email.at" /></label
-            ><label
-              >EVENT TYP<select>
-                <option>Corporate Event</option>
-                <option>Concert / Show</option>
-                <option>Private Event</option>
-                <option>Other</option>
-              </select></label
-            ><label
-              >NACHRICHT<textarea
-                placeholder="Erzähl uns von deinem Event..."
-              ></textarea></label
-            ><button class="solid-btn" type="submit">ANFRAGE SENDEN →</button>
+          <form class="form" id="event-enquiry-form">
+            <label>
+                NAME
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  maxlength="120"
+                >
+              </label>
+              
+              <label>
+                EMAIL
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                  maxlength="254"
+                >
+              </label>
+              
+              <label>
+                EVENT TYPE
+                <select name="eventType" required>
+                  <option value="Corporate event">Corporate event</option>
+                  <option value="Concert / Show">Concert / Show</option>
+                  <option value="Private event">Private event</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              
+              <label>
+                MESSAGE
+                <textarea
+                  name="message"
+                  placeholder="Tell us about your event..."
+                  required
+                  maxlength="5000"
+                ></textarea>
+              </label>
+              
+              <button
+                class="solid-btn"
+                id="submit-enquiry"
+                type="submit"
+              >
+                SEND ENQUIRY →
+              </button>
+              
+              <p id="form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
       </section>
@@ -127,6 +160,14 @@
         ><span>Impressum · Datenschutz</span>
       </div>
     </footer>
+    <dialog class="success-dialog" id="enquiry-success" aria-labelledby="success-title">
+      <button class="success-close" type="button" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
+      <p class="section-kicker">BC VIENNA ARENA</p>
+      <h2 id="success-title" data-de="Vielen Dank!" data-en="Thank you!"></h2>
+      <p data-de="Wir haben deine Nachricht erhalten und melden uns bald bei dir." data-en="We received your message and will be in touch soon."></p>
+      <button class="solid-btn" type="button" onclick="this.closest('dialog').close()" data-de="SCHLIESSEN" data-en="CLOSE"></button>
+    </dialog>
+    <script src="js/contact-config.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/i18n.js"></script>
   </body>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Vielen Dank — BC Vienna Arena</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 30px;
+      display: grid;
+      place-items: center;
+      background: #090a0c;
+      color: #f5f5f2;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: min(850px, 100%);
+      animation: appear .7s ease both;
+    }
+
+    .logo {
+      position: absolute;
+      top: 28px;
+      left: 5vw;
+      color: white;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-decoration: none;
+    }
+
+    .logo span { color: #ed2939; }
+
+    .language {
+      position: absolute;
+      top: 22px;
+      right: 5vw;
+    }
+
+    .language button {
+      padding: 8px;
+      border: 0;
+      background: none;
+      color: #888;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .language button.active { color: white; }
+
+    .check {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ed2939;
+      border-radius: 50%;
+      color: #ed2939;
+      font-size: 28px;
+    }
+
+    .eyebrow {
+      margin-top: 32px;
+      color: #aaa;
+      font-size: 11px;
+      letter-spacing: .2em;
+    }
+
+    h1 {
+      font-size: clamp(45px, 9vw, 100px);
+      line-height: .95;
+      letter-spacing: -.06em;
+    }
+
+    h1 em {
+      color: #ed2939;
+      font-style: normal;
+    }
+
+    p {
+      max-width: 620px;
+      color: #aaa;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 18px 24px;
+      background: #ed2939;
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      transition: transform .2s;
+    }
+
+    .button:hover { transform: translateY(-3px); }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      main { animation: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="logo" href="index.html">BC VIENNA <span>ARENA</span></a>
+
+  <div class="language">
+    <button data-lang="de" class="active">DE</button>
+    /
+    <button data-lang="en">EN</button>
+  </div>
+
+  <main>
+    <div class="check" aria-hidden="true">✓</div>
+
+    <div
+      class="eyebrow"
+      data-de="ANFRAGE ERFOLGREICH GESENDET"
+      data-en="ENQUIRY SENT SUCCESSFULLY"
+    >
+      ANFRAGE ERFOLGREICH GESENDET
+    </div>
+
+    <h1
+      data-de="VIELEN DANK.<br><em>WIR MELDEN UNS.</em>"
+      data-en="THANK YOU.<br><em>WE'LL BE IN TOUCH.</em>"
+    >
+      VIELEN DANK.<br><em>WIR MELDEN UNS.</em>
+    </h1>
+
+    <p
+      data-de="Vielen Dank für deine Anfrage zur BC Vienna Arena. Wir haben deine Nachricht erhalten und melden uns so bald wie möglich bei dir."
+      data-en="Thank you for contacting BC Vienna Arena. We have received your enquiry and will get back to you as soon as possible."
+    >
+      Vielen Dank für deine Anfrage zur BC Vienna Arena. Wir haben deine Nachricht erhalten und melden uns so bald wie möglich bei dir.
+    </p>
+
+    <a
+      class="button"
+      href="index.html"
+      data-de="ZUR STARTSEITE →"
+      data-en="BACK TO HOME →"
+    >
+      ZUR STARTSEITE →
+    </a>
+  </main>
+
+  <script src="js/thank-you.js"></script>
+</body>
+</html>
