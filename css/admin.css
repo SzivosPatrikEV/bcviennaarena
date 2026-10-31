@@ -1,0 +1,541 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --red: #e62b34;
+    --bg: #090a0c;
+    --panel: #111318;
+    --white: #f5f4ef;
+    --muted: #898c91;
+    --line: #282b30
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--white);
+    font-family: Manrope, Arial, sans-serif
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+.admin-header {
+    height: 76px;
+    padding: 0 5vw;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0b0c0f
+}
+
+.brand {
+    font: 700 13px "Space Grotesk";
+    letter-spacing: .08em
+}
+
+.brand>span {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid white;
+    border-radius: 50%;
+    margin-right: 9px;
+    font-size: 10px
+}
+
+.brand small {
+    color: #85878b;
+    font: 700 9px Manrope;
+    margin-left: 8px;
+    letter-spacing: .12em
+}
+
+.admin-header>a:last-child,
+.text-button {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    color: #b9bbc0
+}
+
+.admin-wrap {
+    max-width: 1440px;
+    margin: auto;
+    padding: 64px 5vw 50px
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 35px
+}
+
+.eyebrow {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .22em;
+    color: var(--red);
+    margin: 0 0 12px
+}
+
+.page-heading h1 {
+    font: 700 clamp(48px, 7vw, 82px)/.95 "Space Grotesk";
+    letter-spacing: -.06em;
+    margin: 0
+}
+
+.page-heading h1 em {
+    font-style: normal;
+    color: var(--red)
+}
+
+.subheading {
+    color: #92959a;
+    font-size: 13px;
+    margin: 17px 0 0
+}
+
+.count-box {
+    border: 1px solid var(--line);
+    padding: 14px 22px;
+    min-width: 100px;
+    text-align: center
+}
+
+.count-box strong {
+    display: block;
+    font: 600 30px "Space Grotesk"
+}
+
+.count-box span {
+    font-size: 8px;
+    color: #888;
+    letter-spacing: .16em
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+    gap: 22px;
+    align-items: start
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 28px
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px
+}
+
+.panel-heading h2 {
+    font: 600 27px "Space Grotesk";
+    margin: 0
+}
+
+.text-button {
+    border: 0;
+    background: none;
+    cursor: pointer
+}
+
+.text-button:hover {
+    color: white
+}
+
+#eventForm {
+    display: grid;
+    gap: 17px
+}
+
+#eventForm label {
+    display: grid;
+    gap: 8px;
+    color: #a9abb0;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .13em
+}
+
+#eventForm input:not([type=checkbox]),
+#eventForm select,
+#eventForm textarea {
+    width: 100%;
+    background: #090a0d;
+    color: #f5f4ef;
+    border: 1px solid #303238;
+    padding: 14px 15px;
+    font: 12px Manrope;
+    outline: none;
+    border-radius: 0
+}
+
+#eventForm input:focus,
+#eventForm select:focus,
+#eventForm textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px #e62b3415
+}
+
+#eventForm textarea {
+    resize: vertical;
+    min-height: 125px;
+    line-height: 1.7
+}
+
+#eventForm input::placeholder,
+#eventForm textarea::placeholder {
+    color: #555960
+}
+
+.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px
+}
+
+.publish-row {
+    border-top: 1px solid var(--line);
+    padding-top: 18px
+}
+
+.toggle-label {
+    display: flex !important;
+    align-items: center;
+    gap: 12px !important;
+    cursor: pointer
+}
+
+.toggle-label input {
+    position: absolute;
+    opacity: 0
+}
+
+.toggle {
+    width: 38px;
+    height: 21px;
+    border-radius: 20px;
+    background: #393c42;
+    position: relative;
+    flex: none
+}
+
+.toggle:after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 3px;
+    top: 3px;
+    border-radius: 50%;
+    background: white;
+    transition: .2s
+}
+
+.toggle-label input:checked+.toggle {
+    background: var(--red)
+}
+
+.toggle-label input:checked+.toggle:after {
+    transform: translateX(17px)
+}
+
+.toggle-label span:last-child {
+    display: grid;
+    gap: 4px
+}
+
+.toggle-label b {
+    color: white;
+    font-size: 10px;
+    letter-spacing: .04em
+}
+
+.toggle-label small {
+    font-size: 9px;
+    color: #777;
+    font-weight: 500;
+    letter-spacing: 0
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.primary-button,
+.secondary-button {
+    min-height: 47px;
+    padding: 0 20px;
+    font: 800 9px Manrope;
+    letter-spacing: .13em;
+    cursor: pointer
+}
+
+.primary-button {
+    background: var(--red);
+    border: 1px solid var(--red);
+    color: white
+}
+
+.primary-button:hover {
+    background: #ff4b52
+}
+
+.primary-button:disabled {
+    opacity: .6;
+    cursor: wait
+}
+
+.secondary-button {
+    background: transparent;
+    border: 1px solid #45484f;
+    color: #ddd
+}
+
+.required-note {
+    font-size: 9px;
+    color: #666;
+    margin: 0
+}
+
+.admin-events {
+    display: grid
+}
+
+.admin-event {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 13px;
+    padding: 19px 0;
+    border-bottom: 1px solid var(--line)
+}
+
+.event-date {
+    width: 49px;
+    height: 55px;
+    background: #1b1d22;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.event-date b {
+    font: 600 21px "Space Grotesk"
+}
+
+.event-date span {
+    font-size: 8px;
+    color: #999;
+    text-transform: uppercase
+}
+
+.admin-event-info {
+    min-width: 0
+}
+
+.event-title-line {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap
+}
+
+.admin-event h3 {
+    font: 600 17px "Space Grotesk";
+    margin: 0
+}
+
+.status {
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 5px 7px
+}
+
+.status.published {
+    color: #9de0b2;
+    background: #173323
+}
+
+.status.draft {
+    color: #e5bf7c;
+    background: #382c17
+}
+
+.admin-event-info p {
+    font-size: 10px;
+    color: #92959a;
+    margin: 8px 0 0
+}
+
+.admin-event-info .venue-line {
+    color: #6f737a
+}
+
+.event-actions {
+    grid-column: 2;
+    display: flex;
+    gap: 15px
+}
+
+.event-actions button {
+    border: 0;
+    background: none;
+    color: #c5c7cb;
+    font: 800 8px Manrope;
+    letter-spacing: .12em;
+    padding: 5px 0;
+    cursor: pointer
+}
+
+.event-actions button:hover {
+    color: white
+}
+
+.event-actions .delete-button {
+    color: #e76b70
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 15px;
+    color: #858990
+}
+
+.empty-state>span {
+    font-size: 34px;
+    color: var(--red)
+}
+
+.empty-state h3 {
+    font: 600 21px "Space Grotesk";
+    color: white;
+    margin: 12px 0 5px
+}
+
+.empty-state p {
+    font-size: 11px
+}
+
+.empty-state.error {
+    color: #ff9297
+}
+
+.muted {
+    color: #858990;
+    font-size: 12px
+}
+
+.notice {
+    display: none;
+    margin: 0 0 20px;
+    padding: 13px 16px;
+    font-size: 11px;
+    border: 1px solid
+}
+
+.notice.show {
+    display: block
+}
+
+.notice.success {
+    border-color: #275b3c;
+    background: #102318;
+    color: #a5e3b7
+}
+
+.notice.error {
+    border-color: #6b292d;
+    background: #2a1214;
+    color: #ffadb0
+}
+
+.security-note {
+    margin-top: 25px;
+    color: #656970;
+    font-size: 9px
+}
+
+.security-note code {
+    color: #aaa
+}
+
+@media(max-width:950px) {
+    .admin-grid {
+        grid-template-columns: 1fr
+    }
+
+    .events-panel {
+        order: 2
+    }
+}
+
+@media(max-width:560px) {
+    .admin-header {
+        padding: 0 18px
+    }
+
+    .brand small {
+        display: none
+    }
+
+    .admin-header>a:last-child {
+        font-size: 7px
+    }
+
+    .admin-wrap {
+        padding: 42px 17px
+    }
+
+    .page-heading {
+        align-items: start
+    }
+
+    .count-box {
+        min-width: 70px;
+        padding: 10px
+    }
+
+    .two-cols {
+        grid-template-columns: 1fr
+    }
+
+    .panel {
+        padding: 19px
+    }
+
+    .panel-heading h2 {
+        font-size: 23px
+    }
+
+    .page-heading h1 {
+        font-size: 49px
+    }
+
+    .subheading {
+        font-size: 11px
+    }
+
+    .form-actions {
+        flex-wrap: wrap
+    }
+}

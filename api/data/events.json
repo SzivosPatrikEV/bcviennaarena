@@ -1,0 +1,19 @@
+[
+  {
+    "id": "be5e482f-30f3-49a0-981a-7c150ddb3e32",
+    "title": "The Nun",
+    "date": "2026-10-31",
+    "startTime": "18:00",
+    "endTime": "04:00",
+    "venue": "Hallmann Dome",
+    "category": "Party / Club Night",
+    "artists": "djs",
+    "description": "very good halloween party",
+    "ticketUrl": "",
+    "imageUrl": "",
+    "published": true,
+    "createdAt": "2026-10-30T23:24:59.597Z",
+    "endDate": "2026-11-01",
+    "updatedAt": "2026-10-30T23:32:37.317Z"
+  }
+]

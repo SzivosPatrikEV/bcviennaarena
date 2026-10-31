@@ -957,3 +957,170 @@ footer {
         font-size: 60px
     }
 }
+
+
+/* Dynamic event list and details dialog */
+.events-section {
+    min-height: 420px;
+}
+
+.events-loading,
+.events-error,
+.events-empty {
+    color: #858990;
+    font-size: 12px;
+    line-height: 1.8;
+    padding: 22px 0;
+}
+
+.event-list .event-row {
+    grid-template-columns: 145px 1fr 145px;
+}
+
+.event-details-button {
+    justify-self: end;
+    border: 0;
+    background: none;
+    color: #f5f4ef;
+    cursor: pointer;
+    text-align: right;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+.event-details-button b {
+    font-size: 15px;
+    margin-left: 8px;
+}
+
+.event-details-button:hover {
+    color: var(--red2);
+}
+
+.event-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.event-modal.open {
+    display: flex;
+}
+
+.event-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .82);
+    backdrop-filter: blur(9px);
+}
+
+.event-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: min(760px, 100%);
+    max-height: min(90vh, 900px);
+    overflow: auto;
+    background: #111318;
+    border: 1px solid #363940;
+    box-shadow: 0 25px 100px #000b;
+}
+
+.modal-close {
+    position: absolute;
+    z-index: 3;
+    top: 12px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ffffff66;
+    background: #090a0ccc;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.modal-image {
+    height: 260px;
+    background: #1b1d22 center/cover no-repeat;
+}
+
+.modal-image[hidden] {
+    display: none;
+}
+
+.modal-content {
+    padding: 34px 38px 40px;
+}
+
+.modal-category {
+    color: var(--red);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+.modal-content h2 {
+    font: 700 clamp(32px, 6vw, 54px)/.98 "Space Grotesk";
+    letter-spacing: -.045em;
+    margin: 12px 0 20px;
+}
+
+.modal-meta {
+    display: grid;
+    gap: 10px;
+    padding: 17px 0;
+    border-block: 1px solid var(--line);
+    color: #c5c7ca;
+    font-size: 11px;
+}
+
+.modal-artists {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.8;
+    white-space: pre-line;
+    margin: 22px 0 0;
+}
+
+.modal-description {
+    color: #a2a5aa;
+    font-size: 12px;
+    line-height: 1.9;
+    white-space: pre-line;
+    margin: 16px 0 25px;
+}
+
+.modal-ticket[hidden] {
+    display: none;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+@media(max-width:850px) {
+    .event-list .event-row {
+        grid-template-columns: 75px 1fr;
+    }
+
+    .event-list .event-details-button {
+        grid-column: 2;
+        justify-self: start;
+        text-align: left;
+    }
+
+    .modal-content {
+        padding: 26px 22px 30px;
+    }
+
+    .modal-image {
+        height: 190px;
+    }
+}

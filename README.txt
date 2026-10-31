@@ -7,17 +7,26 @@ New visual direction: Space Grotesk + Manrope, editorial/grid layout, large visi
 
 CONTACT FORM BACKEND
 
-The contact form posts to /api/contact. The Node.js server sends enquiries to
-szivospatrikev@gmail.com through Resend. To configure email delivery:
+The venue booking form on contact.html posts to /api/contact. The Node.js
+server sends each booking enquiry to szivospatrikev@gmail.com through Resend.
+To configure email delivery:
 
 1. Create a Resend account and verify a domain you control.
-2. Copy .env.example to .env.
+2. Create a private api/.env file with these settings:
+   RESEND_API_KEY=your_resend_api_key
+   RESEND_FROM=BC Vienna Arena <contact@yourdomain.at>
+   CONTACT_RECIPIENT=szivospatrikev@gmail.com
 3. Set RESEND_API_KEY to your Resend API key.
 4. Set RESEND_FROM to an address on your verified domain, for example:
    BC Vienna Arena <contact@yourdomain.at>
-5. Start the site with `npm start` and open http://localhost:3000.
+5. From the `api` folder, run `npm start` and open
+   http://127.0.0.1:3000. No domain name is needed for local development.
 
-Keep .env private and configure the same environment variables on your host
+The website itself works locally without Resend. To have the contact form
+send email through Resend, you still need a verified sender domain; that is a
+requirement of the email provider, not of running the site at 127.0.0.1.
+
+Keep api/.env private and configure the same environment variables on your host
 when deploying. The success dialog appears only after the email provider
 accepts the message.
 
