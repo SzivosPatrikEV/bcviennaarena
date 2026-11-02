@@ -992,3 +992,17 @@ footer {
         font-size: 60px
     }
 }
+/* CONTACT FORM VISIBILITY FIX */
+.contact-layout,
+.contact-layout.reveal {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    display: grid !important;
+}
+
+.contact-layout .contact-left,
+.contact-layout .form {
+    opacity: 1 !important;
+    visibility: visible !important;
+}

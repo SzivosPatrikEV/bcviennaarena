@@ -1,55 +1,92 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Event Admin — BC Vienna Arena</title>
-  <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-  <header class="admin-header">
-    <a class="brand" href="events.html"><span>BC</span> VIENNA ARENA <small>/ EVENT ADMIN</small></a>
-    <a href="events.html" target="_blank" rel="noopener">VIEW PUBLIC EVENTS ↗</a>
-  </header>
-  <main class="admin-wrap">
-    <div class="page-heading">
-      <div><p class="eyebrow">CONTROL PANEL / EVENTS</p><h1>Manage <em>events.</em></h1><p class="subheading">Create, edit and publish events that appear on the public Events page.</p></div>
-      <div class="count-box"><strong id="eventCount">0</strong><span>EVENTS</span></div>
-    </div>
-    <div id="notice" class="notice" role="status" aria-live="polite"></div>
-    <div class="admin-grid">
-      <section class="panel form-panel">
-        <div class="panel-heading"><div><span class="eyebrow" id="formEyebrow">NEW EVENT</span><h2 id="formTitle">Add an event</h2></div><button type="button" class="text-button" id="resetButton">CLEAR FORM</button></div>
-        <form id="eventForm">
-          <input type="hidden" id="eventId">
-          <label>Event name *<input id="title" name="title" required maxlength="160" placeholder="e.g. Summer Opening Night"></label>
-          <div class="two-cols">
-            <label>Start date *<input id="date" name="date" type="date" required></label>
-            <label>End date *<input id="endDate" name="endDate" type="date" required></label>
-          </div>
-          <label>Event category *<select id="category" name="category" required><option value="">Select category</option><option>Concert</option><option>Festival</option><option>Sports</option><option>Basketball</option><option>Party / Club Night</option><option>Corporate Event</option><option>Show</option><option>Exhibition</option><option>Other</option></select></label>
-          <div class="two-cols time-cols">
-            <label>Start time *<input id="startTime" name="startTime" type="time" required></label>
-            <label>End time *<input id="endTime" name="endTime" type="time" required></label>
-          </div>
-          <label>Where / venue *<input id="venue" name="venue" required maxlength="240" placeholder="Venue name, street, city"></label>
-          <label>Artists / performers<input id="artists" name="artists" maxlength="1000" placeholder="Artist names, DJs, teams or performers"></label>
-          <label>Event details / description<textarea id="description" name="description" rows="6" maxlength="10000" placeholder="Describe the event, programme, doors opening, age restrictions and other useful details…"></textarea></label>
-          <label>Ticket purchase link<input id="ticketUrl" name="ticketUrl" type="url" placeholder="https://tickets.example.com/event"></label>
-          <label>Poster / image URL<input id="imageUrl" name="imageUrl" type="url" placeholder="https://example.com/event-poster.jpg"></label>
-          <div class="publish-row"><label class="toggle-label"><input id="published" type="checkbox" checked><span class="toggle"></span><span><b>Publish event</b><small>Visible on events.html immediately after saving</small></span></label></div>
-          <div class="form-actions"><button class="primary-button" id="saveButton" type="submit">SAVE EVENT ↗</button><button class="secondary-button" type="button" id="cancelEdit" hidden>Cancel edit</button></div>
-          <p class="required-note">* Required fields</p>
-        </form>
-      </section>
-      <section class="panel events-panel">
-        <div class="panel-heading"><div><span class="eyebrow">YOUR CALENDAR</span><h2>All events</h2></div><button type="button" class="text-button" id="refreshButton">↻ REFRESH</button></div>
-        <div id="adminEvents" class="admin-events"><p class="muted">Loading events…</p></div>
-      </section>
-    </div>
-    <p class="security-note">Protected admin area · Changes are saved to the connected MySQL events database.</p>
-  </main>
-  <script src="js/api-config.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Event Admin — BC Vienna Arena</title>
+    <link rel="stylesheet" href="css/admin.css">
+  </head>
+  <body>
+    <header class="admin-header">
+      <a class="brand" href="events.html"><span>BC</span> VIENNA ARENA <small>/
+          EVENT ADMIN</small></a>
+      <a href="events.html" target="_blank" rel="noopener">VIEW PUBLIC EVENTS
+        ↗</a>
+    </header>
+    <main class="admin-wrap">
+      <div class="page-heading">
+        <div><p class="eyebrow">CONTROL PANEL / EVENTS</p><h1>Manage
+            <em>events.</em></h1><p class="subheading">Create, edit and publish
+            events that appear on the public Events page.</p></div>
+        <div class="count-box"><strong
+            id="eventCount">0</strong><span>EVENTS</span></div>
+      </div>
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+      <div class="admin-grid">
+        <section class="panel form-panel">
+          <div class="panel-heading"><div><span class="eyebrow"
+                id="formEyebrow">NEW EVENT</span><h2 id="formTitle">Add an
+                event</h2></div><button type="button" class="text-button"
+              id="resetButton">CLEAR FORM</button></div>
+          <form id="eventForm">
+            <input type="hidden" id="eventId">
+            <label>Event name *<input id="title" name="title" required
+                maxlength="160" placeholder="e.g. Summer Opening Night"></label>
+            <div class="two-cols">
+              <label>Start date *<input id="date" name="date" type="date"
+                  required></label>
+              <label>End date *<input id="endDate" name="endDate" type="date"
+                  required></label>
+            </div>
+            <label>Event category *<select id="category" name="category"
+                required><option value>Select
+                  category</option><option>Concert</option><option>Festival</option><option>Sports</option><option>Basketball</option><option>Party
+                  / Club Night</option><option>Corporate
+                  Event</option><option>Show</option><option>Exhibition</option><option>Other</option></select></label>
+            <div class="two-cols time-cols">
+              <label>Start time *<input id="startTime" name="startTime"
+                  type="time" required></label>
+              <label>End time *<input id="endTime" name="endTime" type="time"
+                  required></label>
+            </div>
+            <label>Where / venue *<input id="venue" name="venue" required
+                maxlength="240" placeholder="Venue name, street, city"></label>
+            <label>Artists / performers<input id="artists" name="artists"
+                maxlength="1000"
+                placeholder="Artist names, DJs, teams or performers"></label>
+            <label>Event details / description<textarea id="description"
+                name="description" rows="6" maxlength="10000"
+                placeholder="Describe the event, programme, doors opening, age restrictions and other useful details…"></textarea></label>
+            <label>Ticket purchase link<input id="ticketUrl" name="ticketUrl"
+                type="url"
+                placeholder="https://tickets.example.com/event"></label>
+            <label>Poster / image URL<input id="imageUrl" name="imageUrl"
+                type="url"
+                placeholder="https://example.com/event-poster.jpg"></label>
+            <div class="publish-row"><label class="toggle-label"><input
+                  id="published" type="checkbox" checked><span
+                  class="toggle"></span><span><b>Publish event</b><small>Visible
+                    on events.html immediately after
+                    saving</small></span></label></div>
+            <div class="form-actions"><button class="primary-button"
+                id="saveButton" type="submit">SAVE EVENT ↗</button><button
+                class="secondary-button" type="button" id="cancelEdit"
+                hidden>Cancel edit</button></div>
+            <p class="required-note">* Required fields</p>
+          </form>
+        </section>
+        <section class="panel events-panel">
+          <div class="panel-heading"><div><span class="eyebrow">YOUR
+                CALENDAR</span><h2>All events</h2></div><button type="button"
+              class="text-button" id="refreshButton">↻ REFRESH</button></div>
+          <div id="adminEvents" class="admin-events"><p class="muted">Loading
+              events…</p></div>
+        </section>
+      </div>
+      <p class="security-note">Protected admin area · Changes are saved to the
+        connected MySQL events database.</p>
+    </main>
+    <script src="js/api-config.js"></script>
     <script src="js/admin.js"></script>
-</body>
+  </body>
 </html>
