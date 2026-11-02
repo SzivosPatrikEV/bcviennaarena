@@ -4,7 +4,11 @@
   "private": true,
   "description": "BC Vienna Arena website and contact enquiry backend",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "import:json": "node import-json-to-mysql.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.14.1"
   },
   "engines": {
     "node": ">=18"

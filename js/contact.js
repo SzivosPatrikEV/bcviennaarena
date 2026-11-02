@@ -1,4 +1,5 @@
 (() => {
+  const API_BASE = (window.BC_API_BASE_URL || '').replace(/\\/$/, '');
   const revealElements = document.querySelectorAll(
     ".reveal, .reveal-stagger"
   );
@@ -82,7 +83,7 @@
 
     try {
       const response = await fetch(
-        window.CONTACT_API_URL || "/api/contact",
+        `${API_BASE}/contact`,
         {
         method: "POST",
         headers: { "Content-Type": "application/json" },

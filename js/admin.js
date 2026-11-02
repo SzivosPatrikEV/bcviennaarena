@@ -1,4 +1,5 @@
 (() => {
+  const API_BASE = (window.BC_API_BASE_URL || '').replace(/\\/$/, '');
   const $ = id => document.getElementById(id);
   const form = $("eventForm");
   const list = $("adminEvents");
@@ -64,7 +65,7 @@
 
   async function load() {
     try {
-      events = await api("/api/admin/events");
+      events = await api(`${API_BASE}/admin/events`);
       render();
     } catch (error) {
       list.innerHTML = `<div class="empty-state error">${escapeHtml(error.message)}<p>Check that the server is running and ADMIN_PASSWORD is configured in api/.env.</p></div>`;
@@ -99,7 +100,7 @@
     button.disabled = true;
     button.textContent = "SAVING…";
     try {
-      await api(id ? `/api/admin/events/${encodeURIComponent(id)}` : "/api/admin/events", {
+      await api(id ? `${API_BASE}/admin/events/${encodeURIComponent(id)}` : `${API_BASE}/admin/events`, {
         method: id ? "PUT" : "POST", body: JSON.stringify(formData())
       });
       notify(id ? "Event updated successfully." : "Event created successfully.");
@@ -130,7 +131,7 @@
       const item = events.find(entry => entry.id === deleteButton.dataset.delete);
       if (!item || !window.confirm(`Delete "${item.title}"? This cannot be undone.`)) return;
       try {
-        await api(`/api/admin/events/${encodeURIComponent(item.id)}`, { method: "DELETE" });
+        await api(`${API_BASE}/admin/events/${encodeURIComponent(item.id)}`, { method: "DELETE" });
         notify("Event deleted.");
         await load();
       } catch (error) { notify(error.message, "error"); }

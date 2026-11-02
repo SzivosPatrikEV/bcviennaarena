@@ -1,4 +1,5 @@
 (() => {
+  const API_BASE = (window.BC_API_BASE_URL || '').replace(/\\/$/, '');
   const buttons = document.querySelectorAll(".lang");
   const eventList = document.getElementById("eventList");
   const modal = document.getElementById("eventModal");
@@ -113,7 +114,7 @@
     if (event.key === "Escape" && modal.classList.contains("open")) closeModal();
   });
 
-  fetch("/api/events")
+  fetch(`${API_BASE}/events`)
     .then(response => {
       if (!response.ok) throw new Error("Could not load events.");
       return response.json();

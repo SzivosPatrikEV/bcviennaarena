@@ -2,23 +2,11 @@ const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
+const mysql = require("mysql2/promise");
 
 const ROOT = path.resolve(__dirname, "..");
-const PORT = Number(process.env.PORT || 3000);
-const RECIPIENT = process.env.CONTACT_RECIPIENT || "szivospatrikev@gmail.com";
-const DATA_DIR = path.join(__dirname, "data");
-const EVENTS_FILE = path.join(DATA_DIR, "events.json");
 
-const MIME_TYPES = {
-  ".html": "text/html; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".js": "text/javascript; charset=utf-8",
-  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png",
-  ".svg": "image/svg+xml", ".webp": "image/webp", ".ico": "image/x-icon",
-  ".json": "application/json; charset=utf-8"
-};
-
-// Load api/.env without requiring an extra package.
+// Load api/.env before reading any settings below (including the DB pool).
 try {
   const env = fs.readFileSync(path.join(__dirname, ".env"), "utf8");
   for (const line of env.split(/\r?\n/)) {
@@ -31,6 +19,29 @@ try {
   if (error.code !== "ENOENT") throw error;
 }
 
+const PORT = Number(process.env.PORT || 3000);
+const RECIPIENT = process.env.CONTACT_RECIPIENT || "szivospatrikev@gmail.com";
+const dbConfig = {
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  charset: "utf8mb4"
+};
+const db = dbConfig.host && dbConfig.user && dbConfig.database ? mysql.createPool(dbConfig) : null;
+
+const MIME_TYPES = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png",
+  ".svg": "image/svg+xml", ".webp": "image/webp", ".ico": "image/x-icon",
+  ".json": "application/json; charset=utf-8"
+};
+
 function sendJson(res, status, data) {
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
@@ -40,22 +51,54 @@ function sendJson(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
-function readEvents() {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  if (!fs.existsSync(EVENTS_FILE)) fs.writeFileSync(EVENTS_FILE, "[]\n", "utf8");
-  try {
-    const parsed = JSON.parse(fs.readFileSync(EVENTS_FILE, "utf8"));
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    throw new Error("api/data/events.json contains invalid JSON.");
-  }
+async function ensureDatabase() {
+  if (!db) throw new Error("Database is not configured. Set DB_HOST, DB_USER, DB_PASSWORD, and DB_NAME in api/.env.");
+  await db.execute(`CREATE TABLE IF NOT EXISTS events (
+    id CHAR(36) NOT NULL PRIMARY KEY,
+    title VARCHAR(160) NOT NULL,
+    date DATE NOT NULL,
+    endDate DATE NOT NULL,
+    startTime CHAR(5) NOT NULL,
+    endTime CHAR(5) NOT NULL,
+    venue VARCHAR(240) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    artists VARCHAR(1000) NOT NULL DEFAULT '',
+    description TEXT NOT NULL,
+    ticketUrl TEXT NOT NULL,
+    imageUrl TEXT NOT NULL,
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+    createdAt DATETIME(3) NOT NULL,
+    updatedAt DATETIME(3) NULL,
+    INDEX events_date_time (date, startTime)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
 }
 
-function writeEvents(events) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  const temp = EVENTS_FILE + ".tmp";
-  fs.writeFileSync(temp, JSON.stringify(events, null, 2) + "\n", "utf8");
-  fs.renameSync(temp, EVENTS_FILE);
+function fromDatabase(row) {
+  const isoDate = value => value instanceof Date ? value.toISOString().slice(0, 10) : String(value).slice(0, 10);
+  const isoTimestamp = value => value instanceof Date ? value.toISOString() : value;
+  return { ...row, date: isoDate(row.date), endDate: isoDate(row.endDate),
+    createdAt: isoTimestamp(row.createdAt), updatedAt: row.updatedAt ? isoTimestamp(row.updatedAt) : undefined,
+    published: Boolean(row.published) };
+}
+
+async function getEvents(publishedOnly = false) {
+  const [rows] = await db.execute(`SELECT * FROM events ${publishedOnly ? "WHERE published = TRUE" : ""} ORDER BY date, startTime`);
+  return rows.map(fromDatabase);
+}
+
+async function saveEvent(event, id = crypto.randomUUID(), createdAt = new Date()) {
+  await db.execute(`INSERT INTO events
+    (id,title,date,endDate,startTime,endTime,venue,category,artists,description,ticketUrl,imageUrl,published,createdAt)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  [id,event.title,event.date,event.endDate,event.startTime,event.endTime,event.venue,event.category,event.artists,event.description,event.ticketUrl,event.imageUrl,event.published,createdAt]);
+  return (await db.execute("SELECT * FROM events WHERE id = ?", [id]))[0].map(fromDatabase)[0];
+}
+
+async function updateEvent(id, event) {
+  const [result] = await db.execute(`UPDATE events SET title=?,date=?,endDate=?,startTime=?,endTime=?,venue=?,category=?,artists=?,description=?,ticketUrl=?,imageUrl=?,published=?,updatedAt=? WHERE id=?`,
+  [event.title,event.date,event.endDate,event.startTime,event.endTime,event.venue,event.category,event.artists,event.description,event.ticketUrl,event.imageUrl,event.published,new Date(),id]);
+  if (!result.affectedRows) return null;
+  return (await db.execute("SELECT * FROM events WHERE id = ?", [id]))[0].map(fromDatabase)[0];
 }
 
 function safeEqual(a, b) {
@@ -175,12 +218,16 @@ async function receiveEnquiry(req, res) {
 }
 
 async function handleEventsApi(req, res, pathname) {
+  if (pathname.startsWith("/api/events") || pathname.startsWith("/api/admin/events")) {
+    try { await ensureDatabase(); }
+    catch (error) {
+      console.error("Database error:", error.message);
+      return sendJson(res, 503, { error: db ? "Could not connect to the database. Check api/.env and MySQL access." : error.message });
+    }
+  }
   if (pathname === "/api/events" && req.method === "GET") {
     try {
-      const events = readEvents()
-        .filter(event => event.published)
-        .sort((a, b) => `${a.date}T${a.startTime}`.localeCompare(`${b.date}T${b.startTime}`));
-      return sendJson(res, 200, events);
+      return sendJson(res, 200, await getEvents(true));
     } catch (error) {
       console.error(error);
       return sendJson(res, 500, { error: "Could not load events." });
@@ -196,36 +243,26 @@ async function handleEventsApi(req, res, pathname) {
 
     try {
       if (pathname === "/api/admin/events" && req.method === "GET") {
-        const events = readEvents().sort((a, b) => `${a.date}T${a.startTime}`.localeCompare(`${b.date}T${b.startTime}`));
-        return sendJson(res, 200, events);
+        return sendJson(res, 200, await getEvents());
       }
 
       if (pathname === "/api/admin/events" && req.method === "POST") {
         const body = await readJsonBody(req);
         const clean = cleanEvent(body);
-        const events = readEvents();
-        const event = { id: crypto.randomUUID(), ...clean, published: Boolean(body.published), createdAt: new Date().toISOString() };
-        events.push(event);
-        writeEvents(events);
+        const event = await saveEvent({ ...clean, published: Boolean(body.published) });
         return sendJson(res, 201, event);
       }
 
       const match = pathname.match(/^\/api\/admin\/events\/([a-f0-9-]+)$/i);
       if (match) {
-        const events = readEvents();
-        const index = events.findIndex(event => event.id === match[1]);
-        if (index < 0) return sendJson(res, 404, { error: "Event not found." });
-
         if (req.method === "PUT") {
           const body = await readJsonBody(req);
-          events[index] = { ...events[index], ...cleanEvent(body), published: Boolean(body.published), updatedAt: new Date().toISOString() };
-          writeEvents(events);
-          return sendJson(res, 200, events[index]);
+          const updated = await updateEvent(match[1], { ...cleanEvent(body), published: Boolean(body.published) });
+          return updated ? sendJson(res, 200, updated) : sendJson(res, 404, { error: "Event not found." });
         }
         if (req.method === "DELETE") {
-          events.splice(index, 1);
-          writeEvents(events);
-          return sendJson(res, 200, { success: true });
+          const [result] = await db.execute("DELETE FROM events WHERE id = ?", [match[1]]);
+          return result.affectedRows ? sendJson(res, 200, { success: true }) : sendJson(res, 404, { error: "Event not found." });
         }
       }
       res.setHeader("Allow", "GET, POST, PUT, DELETE");
@@ -275,4 +312,8 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`BC Vienna Arena running at http://127.0.0.1:${PORT}`);
   if (!process.env.ADMIN_PASSWORD) console.warn("Set ADMIN_PASSWORD in api/.env to enable /admin.html");
+  if (!db) console.warn("Set DB_HOST, DB_USER, DB_PASSWORD, and DB_NAME in api/.env to connect MySQL.");
+  else ensureDatabase().then(() => console.log("MySQL connected and events table is ready.")).catch(error => {
+    console.error("MySQL connection failed:", error.message);
+  });
 });
